@@ -115,8 +115,6 @@ public:
 
     ColumnPtr executeImpl(const ColumnsWithTypeAndName & arguments, const DataTypePtr & result_type, size_t /*input_rows_count*/) const override
     {
-        using ResultType = typename Impl::ResultType;
-
         const ColumnPtr & column_haystack = arguments[0].column;
         const ColumnPtr & column_needle = arguments[1].column;
 
@@ -126,6 +124,8 @@ public:
 
         const ColumnConst * col_haystack_const = typeid_cast<const ColumnConst *>(&*column_haystack);
         const ColumnConst * col_needle_const = typeid_cast<const ColumnConst *>(&*column_needle);
+
+        using ResultType = typename Impl::ResultType;
 
         if constexpr (!Impl::use_default_implementation_for_constants)
         {
